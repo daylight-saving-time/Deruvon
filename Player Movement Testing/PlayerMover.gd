@@ -1,7 +1,7 @@
 extends RigidBody
 
 var speed = 15
-var jumpforce = 5
+var jumpforce = 3
 var isgrounded = true
 var forward
 var back
@@ -12,11 +12,12 @@ var jump
 func _ready():
 	# Called when the node is added to the scene for the first time.
 	# Initialization here
-	set_contact_monitor( true )
-	set_max_contacts_reported( 10 )
+	#set_contact_monitor( true )
+	#set_max_contacts_reported( 10 )
 
 	
 	#self.connect("body_entered",self, "OnCollisionEnter")
+	pass
 
 func _process(delta):
 	forward = Input.is_key_pressed(KEY_UP)
@@ -39,16 +40,24 @@ func _process(delta):
 		print("going back")
 		self.global_translate((Vector3(-speed,0,0)*delta ))	
 
-#func OnCollisionEnter(body):
-#	print(body)
-
-	
-	
 #	# Called every frame. Delta is time since last frame.
 #	# Update game logic here.
 	
 
 
 func _on_Player_body_entered(body):
-	print(body.name) # replace with function body
-	print (body.transform)
+	var _floor = (get_node("../Floor"))
+	print(body)
+	print (_floor)
+	if body == _floor:
+		print ("grounded")
+		self.isgrounded = true
+
+
+func _on_Player_body_exited(body):
+	var _floor = (get_node("../Floor"))
+	print(body)
+	print (_floor)
+	if body == _floor:
+		print ("jumped")
+		self.isgrounded = false

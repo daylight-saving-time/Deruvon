@@ -1,13 +1,13 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://PlayerMover.gd" type="Script" id=1]
 [ext_resource path="res://CollisionShape.gd" type="Script" id=2]
 
-[sub_resource type="BoxShape" id=3]
+[sub_resource type="BoxShape" id=1]
 
 extents = Vector3( 1, 1, 1 )
 
-[sub_resource type="CubeMesh" id=4]
+[sub_resource type="CubeMesh" id=2]
 
 custom_aabb = AABB( 0, 0, 0, 0, 0, 0 )
 size = Vector3( 2, 2, 2 )
@@ -15,7 +15,7 @@ subdivide_width = 0
 subdivide_height = 0
 subdivide_depth = 0
 
-[sub_resource type="SpatialMaterial" id=5]
+[sub_resource type="SpatialMaterial" id=3]
 
 render_priority = 0
 flags_transparent = false
@@ -71,19 +71,28 @@ proximity_fade_enable = false
 distance_fade_enable = false
 _sections_unfolded = [ "Emission" ]
 
-[sub_resource type="PlaneShape" id=8]
+[sub_resource type="BoxShape" id=4]
 
-plane = Plane( 0, 1, 0, 0 )
+extents = Vector3( 1, 1, 1 )
 
-[sub_resource type="PlaneShape" id=6]
-
-plane = Plane( 0, 1, 0, 0 )
-
-[sub_resource type="PlaneMesh" id=7]
+[sub_resource type="CubeMesh" id=5]
 
 custom_aabb = AABB( 0, 0, 0, 0, 0, 0 )
-size = Vector2( 2, 2 )
+size = Vector3( 2, 2, 2 )
 subdivide_width = 0
+subdivide_height = 0
+subdivide_depth = 0
+
+[sub_resource type="BoxShape" id=6]
+
+extents = Vector3( 1, 1, 1 )
+
+[sub_resource type="CubeMesh" id=7]
+
+custom_aabb = AABB( 0, 0, 0, 0, 0, 0 )
+size = Vector3( 2, 2, 2 )
+subdivide_width = 0
+subdivide_height = 0
 subdivide_depth = 0
 
 [node name="Scene1" type="Node" index="0"]
@@ -105,7 +114,7 @@ continuous_cd = false
 contacts_reported = 5
 contact_monitor = true
 sleeping = false
-can_sleep = true
+can_sleep = false
 axis_lock_linear_x = false
 axis_lock_linear_y = false
 axis_lock_linear_z = false
@@ -121,7 +130,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="CollisionShape" type="CollisionShape" parent="Player" index="0"]
 
-shape = SubResource( 3 )
+shape = SubResource( 1 )
 disabled = false
 script = ExtResource( 2 )
 _sections_unfolded = [ "Transform" ]
@@ -137,14 +146,14 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 4 )
+mesh = SubResource( 2 )
 skeleton = NodePath("..")
-material/0 = SubResource( 5 )
+material/0 = SubResource( 3 )
 _sections_unfolded = [ "Transform", "material" ]
 
 [node name="Camera" type="Camera" parent="." index="1"]
 
-transform = Transform( 0.00127538, 0.279858, -0.960041, -0.000287231, 0.960042, 0.279858, 0.999999, -8.11716e-005, 0.0013048, -8.67274, 9.16972, 0.0996127 )
+transform = Transform( -0.942522, 0.0932528, -0.320868, -0.000287231, 0.960042, 0.279858, 0.334144, 0.263864, -0.904834, 2.71756, 11.5825, -10.3679 )
 keep_aspect = 1
 cull_mask = 1048575
 environment = null
@@ -158,27 +167,44 @@ size = 1.0
 near = 0.05
 far = 100.0
 
-[node name="StaticBody" type="StaticBody" parent="." index="2"]
+[node name="Floor" type="StaticBody" parent="." index="2"]
 
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.17621, 0 )
 input_ray_pickable = true
 input_capture_on_drag = false
 collision_layer = 1
 collision_mask = 1
-friction = 1.0
+friction = 0.5
 bounce = 0.0
 constant_linear_velocity = Vector3( 0, 0, 0 )
 constant_angular_velocity = Vector3( 0, 0, 0 )
 _sections_unfolded = [ "Collision" ]
 
-[node name="CollisionShape" type="CollisionShape" parent="StaticBody" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="Floor" index="0"]
 
-shape = SubResource( 8 )
+transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 10, 0, 0, 0 )
+shape = SubResource( 4 )
 disabled = false
+_sections_unfolded = [ "Transform" ]
 
-[node name="StaticBody2" type="StaticBody" parent="." index="3"]
+[node name="MeshInstance" type="MeshInstance" parent="Floor/CollisionShape" index="0"]
 
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.0556, 3.75919, 0 )
+layers = 1
+material_override = null
+cast_shadow = 1
+extra_cull_margin = 0.0
+use_in_baked_light = false
+lod_min_distance = 0.0
+lod_min_hysteresis = 0.0
+lod_max_distance = 0.0
+lod_max_hysteresis = 0.0
+mesh = SubResource( 5 )
+skeleton = NodePath("..")
+material/0 = null
+
+[node name="Wall" type="StaticBody" parent="." index="3"]
+
+transform = Transform( 0.0224764, -0.999743, -0.00296426, 0, -0.00296501, 0.999996, -0.999747, -0.0224763, -6.66428e-005, 9.99197, 9.97473, 1.16529 )
 input_ray_pickable = true
 input_capture_on_drag = false
 collision_layer = 1
@@ -187,15 +213,16 @@ friction = 1.0
 bounce = 0.0
 constant_linear_velocity = Vector3( 0, 0, 0 )
 constant_angular_velocity = Vector3( 0, 0, 0 )
-_sections_unfolded = [ "Collision" ]
+_sections_unfolded = [ "Transform" ]
 
-[node name="CollisionShape" type="CollisionShape" parent="StaticBody2" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="Wall" index="0"]
 
-transform = Transform( -0.0824157, -0.996598, 0, 0.996598, -0.0824157, 0, 0, 0, 1, -7.00595, 4.79163, 0 )
+transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 10, 0, 0, 0 )
 shape = SubResource( 6 )
 disabled = false
+_sections_unfolded = [ "Transform" ]
 
-[node name="MeshInstance" type="MeshInstance" parent="StaticBody2/CollisionShape" index="0"]
+[node name="MeshInstance" type="MeshInstance" parent="Wall/CollisionShape" index="0"]
 
 layers = 1
 material_override = null
@@ -209,7 +236,10 @@ lod_max_hysteresis = 0.0
 mesh = SubResource( 7 )
 skeleton = NodePath("..")
 material/0 = null
+_sections_unfolded = [ "Geometry", "Transform" ]
 
 [connection signal="body_entered" from="Player" to="Player" method="_on_Player_body_entered"]
+
+[connection signal="body_exited" from="Player" to="Player" method="_on_Player_body_exited"]
 
 
