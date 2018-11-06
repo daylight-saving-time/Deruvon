@@ -8,6 +8,8 @@ var back
 var left
 var right
 var jump
+var horizontal
+var vertical
 
 func _ready():
 	# Called when the node is added to the scene for the first time.
@@ -26,7 +28,7 @@ func _process(delta):
 	right= Input.is_key_pressed(KEY_RIGHT)
 	jump = Input.is_key_pressed(KEY_SPACE)
 	if jump and isgrounded:
-		self.apply_impulse(Vector3(0,0,0), Vector3(0,10,0))
+		apply_impulse(Vector3(0,0,0), Vector3(0,10,0))
 	if forward:
 		print("going forwards")
 		self.global_translate((Vector3(speed,0,0)*delta ))
@@ -61,3 +63,14 @@ func _on_Player_body_exited(body):
 	if body == _floor:
 		print ("jumped")
 		self.isgrounded = false
+		
+func _input(event):
+	print("input event: " + event.get_class())
+	if event is InputEventJoypadMotion:
+		print("joystick moved")
+		horizontal = Input.get_joy_axis(0,0)
+		vertical = Input.get_joy_axis(0,1)
+		if(horizontal > 0.25 or horizontal < -0.25 or vertical > 0.25 or vertical < -0.25):
+			set_axis_velocity(Vector3(horizontal,0,vertical)*speed)
+		
+		
