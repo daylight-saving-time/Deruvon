@@ -43,10 +43,10 @@ func _input(event):
 
 
 func _process(delta):
-	forward = Input.is_key_pressed(KEY_UP)
-	back = Input.is_key_pressed(KEY_DOWN)
-	left = Input.is_key_pressed(KEY_LEFT)
-	right= Input.is_key_pressed(KEY_RIGHT)
+	forward = Input.is_key_pressed(KEY_UP) || Input.is_key_pressed(KEY_W)
+	back = Input.is_key_pressed(KEY_DOWN) || Input.is_key_pressed(KEY_S)
+	left = Input.is_key_pressed(KEY_LEFT) || Input.is_key_pressed(KEY_A)
+	right= Input.is_key_pressed(KEY_RIGHT) || Input.is_key_pressed(KEY_D)
 	jump = Input.is_key_pressed(KEY_SPACE)
 	if jump and isgrounded:
 		self.apply_impulse(Vector3(0,0,0), Vector3(0,10,0))
