@@ -55,6 +55,15 @@ func _input(event):
 
 
 func _physics_process(delta):
+	if Input.is_mouse_button_pressed(BUTTON_LEFT) and is_camera_locked:
+		var camera = $CameraBase/CameraRotation/Camera
+		var cam_direction = get_viewport().size / 2
+		var from = camera.project_ray_origin(cam_direction)
+		var to = from + camera.project_ray_normal(cam_direction) * 1000
+		var direct_state = PhysicsServer.space_get_direct_state(camera.get_world().get_space())
+		var result = direct_state.intersect_ray(from, to, [self])
+		if result:
+			print(result["collider"].get_name())
 	var move_vector = Vector2()
 	var direction = Vector3()
 	var cam_z
