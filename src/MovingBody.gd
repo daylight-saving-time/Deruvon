@@ -27,9 +27,11 @@ func _input(event):
 		if not is_camera_locked:
 			# Camera is about to be locked, look at the player now
 			$CameraBase.rotation.y = camera_y_rot
+			$"../CrosshairLayer/Crosshair".show()
 		else:
 			# Camera is about to be unlocked, store current player (camera) direction
 			camera_y_rot = $CameraBase.rotation.y
+			$"../CrosshairLayer/Crosshair".hide()
 
 		is_camera_locked = not is_camera_locked
 
