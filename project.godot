@@ -12,7 +12,18 @@ config_version=3
 
 config/name="Deruvon"
 run/main_scene="res://src/PlayerMovement.tscn"
-config/icon="res://src/icon.png"
+config/icon="res://assets/icon.png"
+
+[input]
+
+joy_up=[ Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":1,"axis_value":-1.0,"script":null)
+ ]
+joy_down=[ Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":1,"axis_value":1.0,"script":null)
+ ]
+joy_left=[ Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":0,"axis_value":-1.0,"script":null)
+ ]
+joy_right=[ Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":0,"axis_value":1.0,"script":null)
+ ]
 
 [rendering]
 
