@@ -2,9 +2,9 @@
 
 [ext_resource path="res://src/Floor.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/Wall.tscn" type="PackedScene" id=2]
-[ext_resource path="res://src/MovingBody.tscn" type="PackedScene" id=3]
-[ext_resource path="res://src/MovingBody.gd" type="Script" id=4]
-[ext_resource path="res://assets/crosshair.png" type="Texture" id=5]
+[ext_resource path="res://assets/crosshair.png" type="Texture" id=3]
+[ext_resource path="res://src/Player.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/MovingBody.gd" type="Script" id=5]
 
 [sub_resource type="CubeMesh" id=1]
 
@@ -55,36 +55,7 @@ _sections_unfolded = [ "Transform" ]
 transform = Transform( -4.37114e-008, 0, 1, 0, 1, 0, -1, 0, -4.37114e-008, -47, 0, 0 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="MovingBody" parent="." index="5" instance=ExtResource( 3 )]
-
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4858, 0 )
-script = ExtResource( 4 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="CameraBase" type="Spatial" parent="MovingBody" index="2"]
-
-[node name="CameraRotation" type="Spatial" parent="MovingBody/CameraBase" index="0"]
-
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.4858, 0 )
-
-[node name="Camera" type="Camera" parent="MovingBody/CameraBase/CameraRotation" index="0"]
-
-transform = Transform( 1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 9.4858, 10 )
-keep_aspect = 1
-cull_mask = 1048575
-environment = null
-h_offset = 0.0
-v_offset = 0.0
-doppler_tracking = 0
-projection = 0
-current = false
-fov = 70.0
-size = 1.0
-near = 0.05
-far = 100.0
-_sections_unfolded = [ "Transform" ]
-
-[node name="DirectionalLight" type="DirectionalLight" parent="." index="6"]
+[node name="DirectionalLight" type="DirectionalLight" parent="." index="5"]
 
 transform = Transform( 1, 0, 0, 0, -4.37114e-008, 1, 0, -1, -4.37114e-008, 0, 19, 0 )
 layers = 1
@@ -112,7 +83,7 @@ directional_shadow_depth_range = 0
 directional_shadow_max_distance = 200.0
 _sections_unfolded = [ "Shadow" ]
 
-[node name="CrosshairLayer" type="CanvasLayer" parent="." index="7"]
+[node name="CrosshairLayer" type="CanvasLayer" parent="." index="6"]
 
 layer = 1
 offset = Vector2( 0, 0 )
@@ -137,11 +108,11 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 5 )
+texture = ExtResource( 3 )
 stretch_mode = 0
 _sections_unfolded = [ "Visibility" ]
 
-[node name="CubeObstacle" type="MeshInstance" parent="." index="8"]
+[node name="CubeObstacle" type="MeshInstance" parent="." index="7"]
 
 editor/display_folded = true
 transform = Transform( 2.45484, 1.42128, -2.82024, -2.00421, 3.46167, 1.37554e-007, 2.44068, 1.41308, 2.83659, 9.91356, 4.8577, 11.6525 )
@@ -175,7 +146,7 @@ constant_angular_velocity = Vector3( 0, 0, 0 )
 shape = SubResource( 2 )
 disabled = false
 
-[node name="SphereObstacle" type="MeshInstance" parent="." index="9"]
+[node name="SphereObstacle" type="MeshInstance" parent="." index="8"]
 
 editor/display_folded = true
 transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 4, -19.5059, 3.26183, 18.7945 )
@@ -208,5 +179,35 @@ constant_angular_velocity = Vector3( 0, 0, 0 )
 
 shape = SubResource( 4 )
 disabled = false
+
+[node name="Player" parent="." index="9" instance=ExtResource( 4 )]
+
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+script = ExtResource( 5 )
+
+[node name="CameraBase" type="Spatial" parent="Player" index="3"]
+
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4858, 0 )
+
+[node name="CameraRotation" type="Spatial" parent="Player/CameraBase" index="0"]
+
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.4858, 0 )
+
+[node name="Camera" type="Camera" parent="Player/CameraBase/CameraRotation" index="0"]
+
+transform = Transform( -1, 4.37114e-008, -7.57103e-008, 0, 0.866025, 0.5, 8.74228e-008, 0.5, -0.866025, 0, 3.5, -4 )
+keep_aspect = 1
+cull_mask = 1048575
+environment = null
+h_offset = 0.0
+v_offset = 0.0
+doppler_tracking = 0
+projection = 0
+current = false
+fov = 70.0
+size = 1.0
+near = 0.05
+far = 100.0
+_sections_unfolded = [ "Transform" ]
 
 

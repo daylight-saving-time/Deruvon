@@ -4,11 +4,12 @@ extends KinematicBody
 const SPEED = 30
 
 # Affects camera angle (when mouse is moved vertically)
-const CAMERA_X_ROT_MIN = 0
-const CAMERA_X_ROT_MAX = 30
+const CAMERA_X_ROT_MIN = -20
+const CAMERA_X_ROT_MAX = 10
 
 # Affects mouse sensitivity for camera control
-var sensitivity = 0.01
+var sensitivity = 0.005
+var inverse_y_axis = false
 
 # Internal variables
 var camera_x_rot = 0.0
@@ -102,12 +103,11 @@ func _physics_process(delta):
 	cam_x = cam_x.normalized()
 	move_vector = move_vector.normalized()
 
+	direction += cam_z * move_vector.y
 	if is_camera_locked:
-		direction += cam_z * move_vector.y
+		direction += cam_x * move_vector.x
 	else:
-		direction -= cam_z * move_vector.y
-
-	direction += cam_x * move_vector.x
+		direction -= cam_x * move_vector.x
 	direction.y = 0
 	direction = direction.normalized()
 
