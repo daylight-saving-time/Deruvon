@@ -1,10 +1,10 @@
 [gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://Floor.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Wall.tscn" type="PackedScene" id=2]
-[ext_resource path="res://MovingBody.tscn" type="PackedScene" id=3]
-[ext_resource path="res://MovingBody.gd" type="Script" id=4]
-[ext_resource path="res://crosshair.png" type="Texture" id=5]
+[ext_resource path="res://src/Floor.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/Wall.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/MovingBody.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/MovingBody.gd" type="Script" id=4]
+[ext_resource path="res://assets/crosshair.png" type="Texture" id=5]
 
 [sub_resource type="CubeMesh" id=1]
 
