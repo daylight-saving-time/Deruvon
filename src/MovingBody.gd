@@ -1,7 +1,7 @@
 extends KinematicBody
 
 # Affects movement speed
-const SPEED = 50
+const SPEED = 30
 
 # Affects camera angle (when mouse is moved vertically)
 const CAMERA_X_ROT_MIN = 0
@@ -55,6 +55,8 @@ func _input(event):
 
 
 func _physics_process(delta):
+	# Raycasting test
+	# NOTE: One click triggers this multiple times
 	if Input.is_mouse_button_pressed(BUTTON_LEFT) and is_camera_locked:
 		var camera = $CameraBase/CameraRotation/Camera
 		var cam_direction = get_viewport().size / 2
@@ -64,10 +66,17 @@ func _physics_process(delta):
 		var result = direct_state.intersect_ray(from, to, [self])
 		if result:
 			print(result["collider"].get_name())
+
+	var speed = SPEED
 	var move_vector = Vector2()
 	var direction = Vector3()
 	var cam_z
 	var cam_x
+
+	if Input.is_key_pressed(KEY_SHIFT):
+		speed *= 1.5
+	elif Input.is_key_pressed(KEY_CONTROL):
+		speed *= 0.5
 
 	if Input.is_action_pressed("move_up"):
 		move_vector.y += 1
@@ -102,4 +111,4 @@ func _physics_process(delta):
 	direction.y = 0
 	direction = direction.normalized()
 
-	move_and_slide(direction * SPEED, Vector3(0,1,0))
+	move_and_slide(direction * speed, Vector3(0,1,0))
