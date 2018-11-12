@@ -187,15 +187,15 @@ script = ExtResource( 5 )
 
 [node name="CameraBase" type="Spatial" parent="Player" index="3"]
 
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4858, 0 )
+_sections_unfolded = [ "Transform" ]
 
 [node name="CameraRotation" type="Spatial" parent="Player/CameraBase" index="0"]
 
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.4858, 0 )
+_sections_unfolded = [ "Transform" ]
 
 [node name="Camera" type="Camera" parent="Player/CameraBase/CameraRotation" index="0"]
 
-transform = Transform( -1, 4.37114e-008, -7.57103e-008, 0, 0.866025, 0.5, 8.74228e-008, 0.5, -0.866025, 0, 3.5, -4 )
+transform = Transform( -1, 4.37114e-008, -7.57103e-008, 3.69465e-008, 0.996194, 0.0871559, 7.92319e-008, 0.0871559, -0.996194, -0.541358, 1.25593, -1.01854 )
 keep_aspect = 1
 cull_mask = 1048575
 environment = null

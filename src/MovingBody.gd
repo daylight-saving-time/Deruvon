@@ -6,6 +6,8 @@ const SPEED = 30
 # Affects camera angle (when mouse is moved vertically)
 const CAMERA_X_ROT_MIN = -20
 const CAMERA_X_ROT_MAX = 10
+const CAMERA_ZOOM_MAX = 1.5
+const CAMERA_ZOOM_MIN = 0.5
 
 # Affects mouse sensitivity for camera control
 var sensitivity = 0.005
@@ -15,14 +17,25 @@ var inverse_y_axis = false
 var camera_x_rot = 0.0
 var is_camera_locked = false
 var camera_y_rot
+var zoom
 
 func _ready():
 	# Capture mouse within game
-	camera_y_rot = $CameraBase.rotation.y
+	camera_y_rot = $CameraBase/CameraRotation.rotation.y
+	zoom = $CameraBase.scale.x
 	Input.set_mouse_mode(2)
 	set_process_input(true)
 
 func _input(event):
+
+	# Mouse scroll to zoom in and out
+	if event.is_action_pressed("zoom_in"):
+		zoom = clamp(zoom - 0.1, CAMERA_ZOOM_MIN, CAMERA_ZOOM_MAX)
+		$CameraBase/CameraRotation.scale = Vector3(zoom, zoom, zoom)
+	if event.is_action_pressed("zoom_out"):
+		zoom = clamp(zoom + 0.1, CAMERA_ZOOM_MIN, CAMERA_ZOOM_MAX)
+		$CameraBase/CameraRotation.scale = Vector3(zoom, zoom, zoom)
+
 	# Press TAB to toggle camera lock
 	if event is InputEventKey and event.scancode == KEY_TAB and not event.pressed:
 		if not is_camera_locked:
@@ -49,7 +62,7 @@ func _input(event):
 
 		# Handle vertical mouselook
 		camera_x_rot = clamp(
-			camera_x_rot - event.relative.y * sensitivity,
+			camera_x_rot + event.relative.y * sensitivity,
 			deg2rad(CAMERA_X_ROT_MIN),
 			deg2rad(CAMERA_X_ROT_MAX))
 		$CameraBase/CameraRotation.rotation.x =  camera_x_rot
