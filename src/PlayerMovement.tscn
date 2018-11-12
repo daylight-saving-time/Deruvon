@@ -1,7 +1,6 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://PlayerMover.gd" type="Script" id=1]
-[ext_resource path="res://CollisionShape.gd" type="Script" id=2]
+[ext_resource path="res://src/PlayerMover.gd" type="Script" id=1]
 
 [sub_resource type="BoxShape" id=1]
 
@@ -132,7 +131,6 @@ _sections_unfolded = [ "Transform" ]
 
 shape = SubResource( 1 )
 disabled = false
-script = ExtResource( 2 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="MeshInstance" type="MeshInstance" parent="Player" index="1"]
