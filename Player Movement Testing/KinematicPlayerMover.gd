@@ -9,14 +9,17 @@ var left
 var right
 var jump
 var motion = Vector3()
+#var raycast
+#var normal
 
 # Movement Constants
-const gravity = -9.8
+const gravity = Vector3(0,-4.8,0)
 #const jump_deacceleration = 3 
 
 func _ready():
 	# Called when the node is added to the scene for the first time.
 	# Initialization here
+	#raycast = get_node("CollisionShape/RayCast")
 	pass
 	
 	
@@ -61,14 +64,17 @@ func _physics_process(delta):
 	if jump and is_on_floor():
 		
 #		print("jump")
-		self.move_and_slide(Vector3(0,100,0),Vector3(0,1,0))
+#		motion = move_and_slide(motion-gravity,Vector3(0,1,0))
+		pass
 		
 	# Gravity
-	motion.y += gravity * delta
-	
-	motion = move_and_slide(motion,Vector3(0,1,0))
+#	if !is_on_floor():
+		#motion += gravity * delta
 
-#func _process(delta):
-#	# Called every frame. Delta is time since last frame.
-#	# Update game logic here.
-#	pass
+	
+	motion = move_and_slide(motion+gravity,Vector3(0,1,0))
+
+func _process(delta):
+	# Called every frame. Delta is time since last frame.
+	# Update game logic here.
+	pass

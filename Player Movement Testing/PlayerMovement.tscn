@@ -88,7 +88,7 @@ subdivide_depth = 0
 
 extents = Vector3( 1, 1, 1 )
 
-[sub_resource type="SpatialMaterial" id=10]
+[sub_resource type="SpatialMaterial" id=7]
 
 render_priority = 0
 flags_transparent = false
@@ -140,20 +140,20 @@ proximity_fade_enable = false
 distance_fade_enable = false
 _sections_unfolded = [ "Albedo", "Detail", "Metallic", "Parameters" ]
 
-[sub_resource type="CubeMesh" id=7]
+[sub_resource type="CubeMesh" id=8]
 
-material = SubResource( 10 )
+material = SubResource( 7 )
 custom_aabb = AABB( 0, 0, 0, 0, 0, 0 )
 size = Vector3( 2, 2, 2 )
 subdivide_width = 0
 subdivide_height = 0
 subdivide_depth = 0
 
-[sub_resource type="SphereShape" id=8]
+[sub_resource type="SphereShape" id=9]
 
 radius = 1.0
 
-[sub_resource type="SpatialMaterial" id=11]
+[sub_resource type="SpatialMaterial" id=10]
 
 render_priority = 0
 flags_transparent = false
@@ -206,9 +206,9 @@ proximity_fade_enable = false
 distance_fade_enable = false
 _sections_unfolded = [ "Albedo", "Flags", "Metallic" ]
 
-[sub_resource type="SphereMesh" id=12]
+[sub_resource type="SphereMesh" id=11]
 
-material = SubResource( 11 )
+material = SubResource( 10 )
 custom_aabb = AABB( 0, 0, 0, 0, 0, 0 )
 radius = 1.0
 height = 2.0
@@ -220,6 +220,7 @@ is_hemisphere = false
 
 [node name="Player" type="RigidBody" parent="." index="0"]
 
+editor/display_folded = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.1153, 0 )
 input_ray_pickable = true
 input_capture_on_drag = false
@@ -293,6 +294,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="MeshInstance" type="MeshInstance" parent="Floor/CollisionShape" index="0"]
 
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 layers = 1
 material_override = null
 cast_shadow = 1
@@ -505,6 +507,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="MeshInstance" type="MeshInstance" parent="Wall/CollisionShape" index="0"]
 
+transform = Transform( 1, 0, -8.22183e-010, 1.49012e-008, 1, -4.1503e-008, -6.40284e-010, 8.2963e-010, 1, 0, 0, 0 )
 layers = 1
 material_override = null
 cast_shadow = 1
@@ -514,7 +517,7 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 7 )
+mesh = SubResource( 8 )
 skeleton = NodePath("..")
 material/0 = null
 _sections_unfolded = [ "Geometry", "Transform" ]
@@ -537,7 +540,7 @@ script = ExtResource( 2 )
 
 [node name="CollisionShape" type="CollisionShape" parent="KinematicBody" index="0"]
 
-shape = SubResource( 8 )
+shape = SubResource( 9 )
 disabled = false
 
 [node name="MeshInstance" type="MeshInstance" parent="KinematicBody/CollisionShape" index="0"]
@@ -551,7 +554,7 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 12 )
+mesh = SubResource( 11 )
 skeleton = NodePath("..")
 material/0 = null
 
