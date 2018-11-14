@@ -78,7 +78,7 @@ func _physics_process(delta):
 
 	
 	motion = move_and_slide(motion + vertical_powah,Vector3(0,1,0))
-	print (self.translation)
+	print (vertical_powah)
 
 func _process(delta):
 	# Called every frame. Delta is time since last frame.

@@ -11,8 +11,12 @@ config_version=3
 [application]
 
 config/name="Test Project"
-run/main_scene="res://PlayerMovement.tscn"
-config/icon="res://icon.png"
+run/main_scene="res://scenes/PlayerMovement.tscn"
+config/icon="res://assets/icon.png"
+
+[rendering]
+
+environment/default_environment="res://src/default_env.tres"
 
 [input]
 
@@ -24,7 +28,3 @@ joy_left=[ Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resour
  ]
 joy_right=[ Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":0,"axis_value":1.0,"script":null)
  ]
-
-[rendering]
-
-environment/default_environment="res://default_env.tres"
