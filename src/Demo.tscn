@@ -193,9 +193,14 @@ _sections_unfolded = [ "Transform" ]
 
 _sections_unfolded = [ "Transform" ]
 
-[node name="Camera" type="Camera" parent="Player/CameraBase/CameraRotation" index="0"]
+[node name="TPSCameraLocation" type="Spatial" parent="Player/CameraBase/CameraRotation" index="0"]
 
-transform = Transform( -1, 4.37114e-008, -7.57103e-008, 3.69465e-008, 0.996194, 0.0871559, 7.92319e-008, 0.0871559, -0.996194, -0.541358, 1.25593, -1.01854 )
+transform = Transform( -1, 0, -8.74228e-008, 0, 1, 0, 8.74228e-008, 0, -1, -0.243625, 1, -0.299887 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Camera" type="Camera" parent="Player/CameraBase/CameraRotation" index="1"]
+
+transform = Transform( -1, -2.26267e-008, 8.44439e-008, 0, 0.965926, 0.258819, -8.74228e-008, 0.258819, -0.965926, 0, 2, -5 )
 keep_aspect = 1
 cull_mask = 1048575
 environment = null

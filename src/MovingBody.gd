@@ -18,6 +18,7 @@ var camera_x_rot = 0.0
 var is_camera_locked = false
 var camera_y_rot
 var zoom
+var original_camera_rotation_translation
 
 func _ready():
 	# Capture mouse within game
@@ -38,14 +39,33 @@ func _input(event):
 
 	# Press TAB to toggle camera lock
 	if event is InputEventKey and event.scancode == KEY_TAB and not event.pressed:
+		var other_cam_transform
+
 		if not is_camera_locked:
+			$AnimationPlayer.play("aiming")
+			$"../CrosshairLayer/Crosshair".show()
+
 			# Camera is about to be locked, look at the player now
 			$CameraBase.rotation.y = camera_y_rot
-			$"../CrosshairLayer/Crosshair".show()
+
+			other_cam_transform = $CameraBase/CameraRotation/Camera.transform
+			$CameraBase/CameraRotation/Camera.transform = $CameraBase/CameraRotation/TPSCameraLocation.transform
+			$CameraBase/CameraRotation/TPSCameraLocation.transform = other_cam_transform
+
+			original_camera_rotation_translation = $CameraBase.transform.origin
 		else:
+			# TODO: Change to idle animation when we have it
+			$AnimationPlayer.stop()
+			$"../CrosshairLayer/Crosshair".hide()
+
 			# Camera is about to be unlocked, store current player (camera) direction
 			camera_y_rot = $CameraBase.rotation.y
-			$"../CrosshairLayer/Crosshair".hide()
+
+			other_cam_transform = $CameraBase/CameraRotation/TPSCameraLocation.transform
+			$CameraBase/CameraRotation/TPSCameraLocation.transform = $CameraBase/CameraRotation/Camera.transform
+			$CameraBase/CameraRotation/Camera.transform = other_cam_transform
+
+			$CameraBase.transform.origin = original_camera_rotation_translation
 
 		is_camera_locked = not is_camera_locked
 
