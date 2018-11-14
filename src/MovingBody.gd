@@ -18,24 +18,36 @@ var camera_x_rot = 0.0
 var is_camera_locked = false
 var camera_y_rot
 var zoom
-var original_camera_rotation_translation
+
+# Nodes
+var camera_base
+var camera_rotation
+var camera
+var tps_camera_location
+
 
 func _ready():
+	camera_base = $CameraBase
+	camera_rotation = $CameraBase/CameraRotation
+	camera = $CameraBase/CameraRotation/Camera
+	tps_camera_location = $CameraBase/CameraRotation/TPSCameraLocation
+
 	# Capture mouse within game
-	camera_y_rot = $CameraBase/CameraRotation.rotation.y
-	zoom = $CameraBase.scale.x
+	camera_y_rot = camera_rotation.rotation.y
+	zoom = camera_base.scale.x
 	Input.set_mouse_mode(2)
 	set_process_input(true)
+
 
 func _input(event):
 
 	# Mouse scroll to zoom in and out
 	if event.is_action_pressed("zoom_in"):
 		zoom = clamp(zoom - 0.1, CAMERA_ZOOM_MIN, CAMERA_ZOOM_MAX)
-		$CameraBase/CameraRotation.scale = Vector3(zoom, zoom, zoom)
+		camera_rotation.scale = Vector3(zoom, zoom, zoom)
 	if event.is_action_pressed("zoom_out"):
 		zoom = clamp(zoom + 0.1, CAMERA_ZOOM_MIN, CAMERA_ZOOM_MAX)
-		$CameraBase/CameraRotation.scale = Vector3(zoom, zoom, zoom)
+		camera_rotation.scale = Vector3(zoom, zoom, zoom)
 
 	# Press TAB to toggle camera lock
 	if event is InputEventKey and event.scancode == KEY_TAB and not event.pressed:
@@ -46,26 +58,26 @@ func _input(event):
 			$"../CrosshairLayer/Crosshair".show()
 
 			# Camera is about to be locked, look at the player now
-			$CameraBase.rotation.y = camera_y_rot
+			camera_base.rotation.y = camera_y_rot
 
-			other_cam_transform = $CameraBase/CameraRotation/Camera.transform
-			$CameraBase/CameraRotation/Camera.transform = $CameraBase/CameraRotation/TPSCameraLocation.transform
-			$CameraBase/CameraRotation/TPSCameraLocation.transform = other_cam_transform
+			camera_x_rot = 0.0
+			camera_rotation.rotation.x =  camera_x_rot
 
-			original_camera_rotation_translation = $CameraBase.transform.origin
+			other_cam_transform = camera.global_transform
+			camera.global_transform = tps_camera_location.global_transform
+			tps_camera_location.global_transform = other_cam_transform
+
 		else:
 			# TODO: Change to idle animation when we have it
 			$AnimationPlayer.stop()
 			$"../CrosshairLayer/Crosshair".hide()
 
 			# Camera is about to be unlocked, store current player (camera) direction
-			camera_y_rot = $CameraBase.rotation.y
+			camera_y_rot = camera_base.rotation.y
 
-			other_cam_transform = $CameraBase/CameraRotation/TPSCameraLocation.transform
-			$CameraBase/CameraRotation/TPSCameraLocation.transform = $CameraBase/CameraRotation/Camera.transform
-			$CameraBase/CameraRotation/Camera.transform = other_cam_transform
-
-			$CameraBase.transform.origin = original_camera_rotation_translation
+			other_cam_transform = tps_camera_location.global_transform
+			tps_camera_location.global_transform = camera.global_transform
+			camera.global_transform = other_cam_transform
 
 		is_camera_locked = not is_camera_locked
 
@@ -77,22 +89,28 @@ func _input(event):
 			rotate_y(-event.relative.x * sensitivity)
 		else:
 			# Only move the camera if the camera is unlocked
-			$CameraBase.rotate_y(-event.relative.x * sensitivity)
-			$CameraBase.orthonormalize()
+			camera_base.rotate_y(-event.relative.x * sensitivity)
+			camera_base.orthonormalize()
 
 		# Handle vertical mouselook
-		camera_x_rot = clamp(
-			camera_x_rot + event.relative.y * sensitivity,
-			deg2rad(CAMERA_X_ROT_MIN),
-			deg2rad(CAMERA_X_ROT_MAX))
-		$CameraBase/CameraRotation.rotation.x =  camera_x_rot
+		if not is_camera_locked:
+			camera_x_rot = clamp(
+				camera_x_rot + event.relative.y * sensitivity,
+				deg2rad(CAMERA_X_ROT_MIN),
+				deg2rad(CAMERA_X_ROT_MAX))
+			camera_rotation.rotation.x =  camera_x_rot
+		else:
+			camera_x_rot = clamp(
+				camera_x_rot - event.relative.y * sensitivity,
+				deg2rad(CAMERA_X_ROT_MIN),
+				deg2rad(CAMERA_X_ROT_MAX))
+			camera.rotation.x = camera_x_rot
 
 
 func _physics_process(delta):
 	# Raycasting test
 	# NOTE: One click triggers this multiple times
 	if Input.is_mouse_button_pressed(BUTTON_LEFT) and is_camera_locked:
-		var camera = $CameraBase/CameraRotation/Camera
 		var cam_direction = get_viewport().size / 2
 		var from = camera.project_ray_origin(cam_direction)
 		var to = from + camera.project_ray_normal(cam_direction) * 1000
@@ -123,8 +141,8 @@ func _physics_process(delta):
 
 	if is_camera_locked:
 		# Camera is locked, move in direction of the camera
-		cam_z = -$CameraBase/CameraRotation/Camera.global_transform.basis.z
-		cam_x = $CameraBase/CameraRotation/Camera.global_transform.basis.x
+		cam_z = -camera.global_transform.basis.z
+		cam_x = camera.global_transform.basis.x
 	else:
 		# Camera is unlocked, move in direction of the player
 		cam_z = global_transform.basis.z

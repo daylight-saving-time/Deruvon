@@ -195,7 +195,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="TPSCameraLocation" type="Spatial" parent="Player/CameraBase/CameraRotation" index="0"]
 
-transform = Transform( -1, 0, -8.74228e-008, 0, 1, 0, 8.74228e-008, 0, -1, -0.243625, 1, -0.299887 )
+transform = Transform( -1, 0, 8.74228e-008, 0, 1, 0, -8.74228e-008, 0, -1, -0.376534, 1, -0.3 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Camera" type="Camera" parent="Player/CameraBase/CameraRotation" index="1"]
