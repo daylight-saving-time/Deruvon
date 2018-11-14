@@ -42,10 +42,10 @@ func _ready():
 func _input(event):
 
 	# Mouse scroll to zoom in and out
-	if event.is_action_pressed("zoom_in"):
+	if event.is_action_pressed("zoom_in") and not is_camera_locked:
 		zoom = clamp(zoom - 0.1, CAMERA_ZOOM_MIN, CAMERA_ZOOM_MAX)
 		camera_rotation.scale = Vector3(zoom, zoom, zoom)
-	if event.is_action_pressed("zoom_out"):
+	if event.is_action_pressed("zoom_out") and not is_camera_locked:
 		zoom = clamp(zoom + 0.1, CAMERA_ZOOM_MIN, CAMERA_ZOOM_MAX)
 		camera_rotation.scale = Vector3(zoom, zoom, zoom)
 
@@ -59,6 +59,7 @@ func _input(event):
 
 			# Camera is about to be locked, look at the player now
 			camera_base.rotation.y = camera_y_rot
+			camera_rotation.scale = Vector3(1, 1, 1)
 
 			camera_x_rot = 0.0
 			camera_rotation.rotation.x =  camera_x_rot
@@ -74,6 +75,7 @@ func _input(event):
 
 			# Camera is about to be unlocked, store current player (camera) direction
 			camera_y_rot = camera_base.rotation.y
+			camera_rotation.scale = Vector3(zoom, zoom, zoom)
 
 			other_cam_transform = tps_camera_location.global_transform
 			tps_camera_location.global_transform = camera.global_transform
